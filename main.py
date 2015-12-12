@@ -11,7 +11,7 @@ rumbler_city = bicycles.Bicycle('Rumbler City', 1.9, 500.00)
 inventory_bikes = [sticky_premium, sticky_premium_limited, stainless_racer,
                    touring, small_wheel, rumbler_city]
                        
-inventory = bicycles.GenerateRandomInventory(inventory_bikes, 4, 8)
+inventory = bicycles.GenerateRandomInventory(inventory_bikes, 0, 4)
     
 # brick and mortar brick and mortar! (let's make a bike shop)
 cherubim = bicycles.BikeShop('Cherubim', inventory, 0.2)

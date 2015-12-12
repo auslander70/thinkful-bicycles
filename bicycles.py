@@ -88,38 +88,28 @@ class Customer(object):
         
         
     def purchase_bike(self, bike, store):
-        if self.can_own:
-            if store.inventory[bike] > 0:
-                if self.funds > bike.production_cost:
-                    self.funds -= (bike.production_cost * (1 + store.margin))
-
-                    try:
-                        self.bikes_owned[bike]
-                    except KeyError:
-                        self.bikes_owned[bike] = 0
-                
-                    self.bikes_owned[bike] += 1
-        
-                    print('{} has purchased a shiny new {} bicycle!'.format(
-                                                        self.customer_name,
-                                                        bike.model_name))
-                    print('{} has {} dollars left in their bicycle fund'.format(
-                                                        self.customer_name,
-                                                        self.funds))            
-            
-                    store.sell_bike(bike)
-                else:
-                    print('{} doesn\'t have enough money to purchase a {} bicycle.'.format(
-                                                        self.customer_name,
-                                                        bike.model_name))
-            else:
-                print('{} doesn\'t have any {} bicycles in stock, sorry {}.'.format(
-                                                        store.shop_name,
-                                                        bike.model_name,
-                                                        self.customer_name))
+        if not self.can_own:
+            return('{} can\'t own a bicycle.'.format(self.customer_name))
+        elif not store.inventory[bike] > 0:
+            return('{} doesn\'t have any {} bicycles in stock, sorry {}.'.format(
+                                                    store.shop_name,
+                                                    bike.model_name,
+                                                    self.customer_name))
+        elif  not self.funds > bike.production_cost:
+            return('{} has {} dollars left in their bicycle fund'.format(
+                                                    self.customer_name,
+                                                    self.funds))    
         else:
-            print('{} can\'t own a bicycle.'.format(self.customer_name))
-    
+            self.funds -= (bike.production_cost * (1 + store.margin))
+            self.bikes_owned[bike] = self.bikes_owned.get(bike, 0) + 1
+            print('{} has purchased a shiny new {} bicycle!'.format(
+                                                    self.customer_name,
+                                                    bike.model_name))
+            print('{} has {} dollars left in their bicycle fund'.format(
+                                                    self.customer_name,
+                                                    self.funds))            
+            store.sell_bike(bike)
+
     
     def print_bikes_owned(self):
         for k in self.bikes_owned:
