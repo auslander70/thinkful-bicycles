@@ -11,7 +11,7 @@ rumbler_city = bicycles.Bicycle('Rumbler City', 1.9, 500.00)
 inventory_bikes = [sticky_premium, sticky_premium_limited, stainless_racer,
                    touring, small_wheel, rumbler_city]
                        
-inventory = bicycles.GenerateRandomInventory(inventory_bikes, 1, 4)
+inventory = bicycles.GenerateRandomInventory(inventory_bikes, 4, 8)
     
 # brick and mortar brick and mortar! (let's make a bike shop)
 cherubim = bicycles.BikeShop('Cherubim', inventory, 0.2)
@@ -25,22 +25,29 @@ customer_list = (customer1, customer2, customer3)
 # shop inventory
 cherubim.print_inventory()
 print()
+ 
+# show affordable bikes
+for customer in customer_list:
+  customer.print_affordable_bikes(cherubim)
+  print()
 
-# get affordable bikes    
-affordable_bikes = bicycles.CalculateAffordableBikes(customer_list, cherubim)
-bicycles.DisplayAffordableBikes(affordable_bikes)
-    
+
 # buy a bike alphonse
 customer2.purchase_bike(small_wheel, cherubim)
+print()
     
 # your turn poor Rudy
 customer1.purchase_bike(small_wheel, cherubim)
+print()
     
 # whatever mr. moneybags
 customer3.purchase_bike(sticky_premium_limited, cherubim)
+print()
 
 # shop inventory
 cherubim.print_inventory()
+print()
 
 # shop profit
 cherubim.print_profit()
+

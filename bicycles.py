@@ -71,7 +71,22 @@ class Customer(object):
         self.can_own = can_own
         self.bikes_owned = {}
         
+        
+    def affordable_bikes(self, BikeShop):
+        bikes = []
+        for bike in BikeShop.inventory:
+            price = (bike.production_cost * BikeShop.margin) + bike.production_cost
+            if BikeShop.inventory[bike] > 0 and price < self.funds:
+                bikes.append(bike)
+        return bikes
     
+    
+    def print_affordable_bikes(self, BikeShop):
+        print('{} can afford the following bikes: '.format(self.customer_name))
+        for bike in self.affordable_bikes(BikeShop):
+            print(bike.model_name)
+        
+        
     def purchase_bike(self, bike, store):
         if self.can_own:
             if store.inventory[bike] > 0:
@@ -109,48 +124,7 @@ class Customer(object):
     def print_bikes_owned(self):
         for k in self.bikes_owned:
             print('{} owns {} {} bicycles.'.format(self.customer_name, self.bikes_owned[k], k.model_name))
-    
-        
-        
-def CalculateAffordableBikes(customers, store):
-    """ For each customer, show bikes they can afford at a store.
-    
-    Args:
-        customers: list of Customer objects
-        store: BikeShop object
-        
-    Returns:
-        affordable_bikes: dict, key = Customer,
-                                value = list of affordable bikes
-    """
-    affordable_bikes = {}
-    for customer in customers:
-        affordable_bikes[customer] = []
-        for bike in store.inventory:
-            if (bike.production_cost * (1 + store.margin)) < customer.funds:
-                affordable_bikes[customer].append(bike)
-                
-    return affordable_bikes
-    
-        
-def DisplayAffordableBikes(affordable_bikes):
-    """ Print customers and the bikes they can afford.
-    
-    Args:
-        affordable_bikes: dict, key = Customer object,
-                                value = list of Bicycle objects
-    
-    Returns:
-        nothing.
-    """
-    
-    for customer in affordable_bikes:
-        print('{} can afford the following bicycles: '.format(
-            customer.customer_name))
-        for bike in affordable_bikes[customer]:
-            print(bike.model_name)
-        print()
-        
+
         
 def GenerateRandomInventory(bikes, minimum = 0, maximum = 10):
     """ Given a list of bicycles, generate an inventory dict.
